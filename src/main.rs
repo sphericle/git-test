@@ -53,7 +53,7 @@ fn main() {
                             file.get_mut("creators").and_then(|c| c.as_array_mut())
                         {
                             if !creators.contains(&author_clone) {
-                                creators.push(author_clone);
+                                creators.insert(0, author_clone);
                             }
                         } else {
                             // If "creators" does not exist or is not an array, create a new array with the author
