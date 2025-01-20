@@ -1,5 +1,3 @@
-
-
 #[derive(Debug)]
 pub enum Difficulty {
     ImpossibleLayout,
@@ -14,7 +12,7 @@ pub enum Difficulty {
     MediumLayout,
     EasyLayout,
     BeginnerLayout,
-    None
+    None,
 }
 
 pub struct Level {
@@ -24,10 +22,10 @@ pub struct Level {
     pub verifier: String,
     pub verification: String,
     pub percent_to_qualify: f64,
-    pub song: String,
-    pub song_link: String,
+    pub song_name: String,
+    pub song_link: Option<String>,
     pub difficulty: Difficulty,
-    pub records: Vec<Record>
+    pub records: Vec<Record>,
 }
 
 pub struct Record {
@@ -36,5 +34,5 @@ pub struct Record {
     pub percent: i8,
     pub hz: i16,
     pub mobile: bool,
-    pub enjoyment: Option<i8>
+    pub enjoyment: Option<i8>,
 }
