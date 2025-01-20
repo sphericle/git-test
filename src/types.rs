@@ -1,4 +1,6 @@
-#[derive(Debug)]
+use crate::rocket::serde;
+
+#[derive(Debug, serde::Serialize)]
 pub enum Difficulty {
     ImpossibleLayout,
     SilentLayout,
@@ -15,6 +17,7 @@ pub enum Difficulty {
     None,
 }
 
+#[derive(serde::Serialize)]
 pub struct Level {
     pub id: i64,
     pub name: String,
@@ -28,6 +31,7 @@ pub struct Level {
     pub records: Vec<Record>,
 }
 
+#[derive(serde::Serialize)]
 pub struct Record {
     pub user: String,
     pub link: String,

@@ -5,5 +5,8 @@ edition = "2021"
 
 [dependencies]
 indexmap = "2.7.0"
-serde_json = { version = "=1.0.1", features = ["preserve_order"] }
+rocket = { version = "0.5.1", features = ["json"] }
+serde_json = { version = "1.0.1", features = ["preserve_order"] }
 url = "2.5.4"
+serde = { version = "1.0.217", features = ["derive"] }
+serde_derive = "1.0"
