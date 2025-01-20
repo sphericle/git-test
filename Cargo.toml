@@ -6,3 +6,4 @@ edition = "2021"
 [dependencies]
 indexmap = "2.7.0"
 serde_json = { version = "=1.0.1", features = ["preserve_order"] }
+url = "2.5.4"
