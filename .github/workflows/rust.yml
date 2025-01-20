@@ -15,9 +15,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - uses: actions/checkout@v4
     - name: initialize git repo
       run: sh init.sh
-    - uses: actions/checkout@v4
     - name: Build
       run: cargo build --verbose
     - name: Run tests
