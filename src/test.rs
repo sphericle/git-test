@@ -3,6 +3,7 @@
 
 mod tests {
     use crate::get::get_all::get_all;
+    use crate::types::Difficulty;
     #[test]
     fn print_all_example() {
         let levels = get_all();
@@ -35,5 +36,12 @@ mod tests {
                 }
             }
         }
+    }
+
+    #[test]
+    fn check_diff_range() {
+        let diff_index: Option<u64> = Some(15);
+        let result = Difficulty::map_index(diff_index);
+        assert_eq!(result, Difficulty::None);
     }
 }

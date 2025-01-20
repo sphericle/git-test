@@ -91,22 +91,7 @@ pub fn get_all() -> Vec<Level> {
                         .get_mut("songLink")
                         .and_then(|song_link| song_link.as_str().map(|s| s.to_string()));
 
-                    let difficulty: Difficulty = match file.get_mut("id").and_then(|c| c.as_u64()) {
-                        Some(0) => Difficulty::BeginnerLayout,
-                        Some(1) => Difficulty::EasyLayout,
-                        Some(2) => Difficulty::MediumLayout,
-                        Some(3) => Difficulty::HardLayout,
-                        Some(4) => Difficulty::InsaneLayout,
-                        Some(5) => Difficulty::MythicalLayout,
-                        Some(6) => Difficulty::ExtremeLayout,
-                        Some(7) => Difficulty::SupremeLayout,
-                        Some(8) => Difficulty::EtherealLayout,
-                        Some(9) => Difficulty::LegendaryLayout,
-                        Some(10) => Difficulty::SilentLayout,
-                        Some(11) => Difficulty::ImpossibleLayout,
-                        Some(12_u64..=u64::MAX) => Difficulty::None,
-                        None => Difficulty::None,
-                    };
+                    let difficulty: Difficulty = file.get_mut("id").and_then(|c| c.as_u64()).and_then(|c| Some(Difficulty::map_index(Some(c)))).unwrap_or(Difficulty::None);
 
                     // A vector of this level's creators
                     let records: Vec<Record> = match file
@@ -115,16 +100,16 @@ pub fn get_all() -> Vec<Level> {
                     {
                         Some(records) => records
                             .iter()
-                            .filter_map(|record| {
-                                let user = record.get("user")?.as_str()?.to_string();
-                                let link = record.get("link")?.as_str()?.to_string();
-                                let percent = record.get("percent")?.as_i64()? as i8;
-                                let hz = record.get("hz")?.as_i64()? as i16;
-                                let mobile = record.get("mobile")?.as_bool()?;
-                                let enjoyment = record
+                            .filter_map(|record: &Value| {
+                                let user: String = record.get("user")?.as_str()?.to_string();
+                                let link: String = record.get("link")?.as_str()?.to_string();
+                                let percent: i8 = record.get("percent")?.as_i64()? as i8;
+                                let hz: i16 = record.get("hz")?.as_i64()? as i16;
+                                let mobile: bool = record.get("mobile")?.as_bool()?;
+                                let enjoyment: Option<i8> = record
                                     .get("enjoyment")
-                                    .and_then(|e| e.as_i64())
-                                    .map(|e| e as i8);
+                                    .and_then(|e: &Value| e.as_i64())
+                                    .map(|e: i64| e as i8);
                                 Some(Record {
                                     user,
                                     link,
