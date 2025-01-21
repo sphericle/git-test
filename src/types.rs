@@ -1,6 +1,6 @@
 use crate::rocket::serde;
 
-#[derive(Debug, serde::Serialize, PartialEq)]
+#[derive(Debug, serde::Serialize, PartialEq, Clone)]
 pub enum Difficulty {
     ImpossibleLayout,
     SilentLayout,
@@ -17,7 +17,7 @@ pub enum Difficulty {
     None,
 }
 
-#[derive(serde::Serialize)]
+#[derive(serde::Serialize, Clone)]
 pub struct Level {
     pub id: i64,
     pub name: String,
@@ -31,7 +31,7 @@ pub struct Level {
     pub records: Vec<Record>,
 }
 
-#[derive(serde::Serialize)]
+#[derive(serde::Serialize, Clone)]
 pub struct Record {
     pub user: String,
     pub link: String,
@@ -57,6 +57,23 @@ impl Difficulty {
             Some(10) => Difficulty::SilentLayout,
             Some(11) => Difficulty::ImpossibleLayout,
             Some(12..) | None => Difficulty::None,
+        }
+    }
+    pub fn as_int(&self) -> i8 {
+        match self {
+            Difficulty::BeginnerLayout => 0,
+            Difficulty::EasyLayout => 1,
+            Difficulty::MediumLayout => 2,
+            Difficulty::HardLayout => 3,
+            Difficulty::InsaneLayout => 4,
+            Difficulty::MythicalLayout => 5,
+            Difficulty::ExtremeLayout => 6,
+            Difficulty::SupremeLayout => 7,
+            Difficulty::EtherealLayout => 8,
+            Difficulty::LegendaryLayout => 9,
+            Difficulty::SilentLayout => 10,
+            Difficulty::ImpossibleLayout => 11,
+            Difficulty::None => -1,
         }
     }
 }

@@ -1,7 +1,6 @@
 use crate::types::{Difficulty, Level, Record};
 use serde_json::{self, Map, Value};
 use std::{ffi::OsStr, fs};
-use url::Url;
 
 const REPO_DATA: &str = "repo/data/";
 
@@ -46,7 +45,7 @@ pub fn get_all() -> Vec<Level> {
                         None => -1,
                     };
 
-                    let name: String = match file.get_mut("name") {
+                    let name: String = match file.get_mut("name").and_then(|n| n.as_str()) {
                         Some(name) => name.to_string(),
                         None => String::new(),
                     };
@@ -63,16 +62,13 @@ pub fn get_all() -> Vec<Level> {
                         None => vec![],
                     };
 
-                    let verifier: String = match file.get_mut("verifier") {
+                    let verifier: String = match file.get_mut("verifier").and_then(|v| v.as_str()) {
                         Some(verifier) => verifier.to_string(),
                         None => String::new(),
                     };
 
-                    let verification: String = match file.get_mut("verification") {
-                        Some(verification) => match Url::parse(&verification.to_string()) {
-                            Ok(_) => verification.to_string(),
-                            Err(_) => String::new(),
-                        },
+                    let verification: String = match file.get_mut("verification").and_then(|v| v.as_str()) {
+                        Some(verification) => verification.to_string(),
                         None => String::new(),
                     };
 
@@ -82,7 +78,7 @@ pub fn get_all() -> Vec<Level> {
                             None => 100.0,
                         };
 
-                    let song_name: String = match file.get_mut("song") {
+                    let song_name: String = match file.get_mut("song").and_then(|s| s.as_str()) {
                         Some(song_name) => song_name.to_string(),
                         None => String::new(),
                     };
@@ -91,7 +87,7 @@ pub fn get_all() -> Vec<Level> {
                         .get_mut("songLink")
                         .and_then(|song_link| song_link.as_str().map(|s| s.to_string()));
 
-                    let difficulty: Difficulty = file.get_mut("id").and_then(|c| c.as_u64()).and_then(|c| Some(Difficulty::map_index(Some(c)))).unwrap_or(Difficulty::None);
+                    let difficulty: Difficulty = file.get_mut("difficulty").and_then(|c| c.as_u64()).and_then(|c| Some(Difficulty::map_index(Some(c)))).unwrap_or(Difficulty::None);
 
                     // A vector of this level's creators
                     let records: Vec<Record> = match file

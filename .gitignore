@@ -1,3 +1,5 @@
 target/
 .DS_Store
 repo/
+db.db
+db.db-journal
